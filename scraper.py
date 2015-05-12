@@ -14,9 +14,9 @@ data = []
 
 for tr in trs:
     member = {'chamber': 'House of Representatives'}
-    member['name'] = tr.xpath('.//a')[0].text_content().strip()
+    member['name_en'] = tr.xpath('.//a')[0].text_content().strip()
     member['details_url'] = tr.xpath('.//a')[0].get('href')
-    member['constituency'] = tr.xpath('td')[-1].text_content().strip()
+    member['constituency_en'] = tr.xpath('td')[-1].text_content().strip()
     member['constituency_id'] = int(re.search('\d+', member['constituency']).group())
 
     member_resp = requests.get(member['details_url'])
