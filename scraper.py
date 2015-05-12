@@ -43,7 +43,7 @@ for tr in trs:
         # E-ma\xb3l:
 
     data.append(member)
-    scraperwiki.sqlite.save(unique_keys=['name'], data=data)
+    scraperwiki.sqlite.save(unique_keys=['constituency_id'], data=data)
 
 
 print "Missing constituency ids: " + repr(set(range(1, 111)) - set([x['constituency_id'] for x in data]))
