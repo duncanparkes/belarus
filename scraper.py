@@ -17,10 +17,12 @@ for tr in trs:
     member['name_en'] = tr.xpath('.//a')[0].text_content().strip()
     member['details_url'] = tr.xpath('.//a')[0].get('href')
     member['constituency_en'] = tr.xpath('td')[-1].text_content().strip()
-    member['constituency_id'] = int(re.search('\d+', member['constituency']).group())
+    member['constituency_id'] = int(re.search('\d+', member['constituency_en']).group())
 
     member_resp = requests.get(member['details_url'])
     member_root = lxml.html.fromstring(member_resp.text)
+
+    member['image'] = member_root.xpath('//h1')[0].getnext().xpath('.//img')[0].get('src')
 
     email_texts = member_root.xpath("//p[contains(., 'E-mail')]")
 
