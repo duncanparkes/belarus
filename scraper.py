@@ -1,11 +1,13 @@
 import re
+from urlparse import urljoin
 
 import requests
 import lxml.html
 
 import scraperwiki
 
-resp = requests.get('http://house.gov.by/index.php/,7508,,,,1,,,0.html')
+en_source_house_of_representatives = 'http://house.gov.by/index.php/,7508,,,,1,,,0.html'
+resp = requests.get(en_source_house_of_representatives)
 root = lxml.html.fromstring(resp.text)
 
 trs = root.xpath("//tr[td[a[@class='d_list']]]")
@@ -22,7 +24,10 @@ for tr in trs:
     member_resp = requests.get(member['details_url'])
     member_root = lxml.html.fromstring(member_resp.text)
 
-    member['image'] = member_root.xpath('//h1')[0].getnext().xpath('.//img')[0].get('src')
+    member['image'] = urljoin(
+        en_source_house_of_representatives,
+        member_root.xpath('//h1')[0].getnext().xpath('.//img')[0].get('src')
+        )
 
     email_texts = member_root.xpath("//p[contains(., 'E-mail')]")
 
