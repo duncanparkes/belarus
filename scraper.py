@@ -16,6 +16,10 @@ data = []
 
 for tr in trs:
     member = {'chamber': 'House of Representatives'}
+
+    # For now, we'll just set the party to blank.
+    member['party'] = u''
+
     member['name_en'] = tr.xpath('.//a')[0].text_content().strip()
     member['details_url'] = tr.xpath('.//a')[0].get('href')
     member['constituency_en'] = tr.xpath('td')[-1].text_content().strip()
