@@ -1,5 +1,5 @@
 import re
-from urlparse import urljoin
+from urlparse import urljoin, urlsplit
 
 import requests
 import lxml.html
@@ -22,6 +22,8 @@ for tr in trs:
 
     member['name'] = tr.xpath('.//a')[0].text_content().strip()
     member['details_url'] = tr.xpath('.//a')[0].get('href')
+    member['id'] = int(urlsplit(member['details_url']).path.split(',')[2])
+
     member['constituency'] = tr.xpath('td')[-1].text_content().strip()
     member['constituency_id'] = int(re.search('\d+', member['constituency']).group())
 
